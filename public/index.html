@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Pet Project</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css">
+    <link rel="stylesheet" href="vendor/leaflet-draw/leaflet.draw.css">
+    <link rel="stylesheet" href="vendor/leaflet-sidebar/L.Control.Sidebar.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
+
+    <link rel="apple-touch-icon" href="img/favicon-152.png">
+    <link rel="shortcut icon" sizes="196x196" href="img/favicon-196.png">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><img src="img/paw-love-powder.png">Awesome Pet Adoption Map Game</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown" id="score-area">
+            <a href="#">You haven't placed a shelter yet!</a>
+          </li>
+          <li><a id="clock-area"></a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+          <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="sidebar.toggle(); return false;"><i class="fa fa-list" style="color: white"></i>&nbsp;&nbsp;How do I play?</a></li>
+        </ul>
+      </div><!--/.navbar-collapse -->
+    </div>
+
+
+
+    <div id="map">
+      <div id="layer-control" class="custom-layer-control">
+      	<button class="btn btn-info btn-large num-people" data-purpose="num-people">
+      		<img src="img/family-white.png">
+      		<br/>Number of people
+      	</button>
+      	<button class="btn btn-info btn-large pet-stores" data-purpose="pet-stores">
+      		<img src="img/pet-store-white.png">
+      		<br/>Pet stores
+      	</button>
+      	<button class="btn btn-info btn-large vets" data-purpose="vets">
+      		<img src="img/pet-store-white.png">
+      		<br/>Vets
+      	</button>
+      	<button class="btn btn-info btn-large parks" data-purpose="parks">
+      		<img src="img/park-icon-white.png">
+      		<br/>Parks
+      	</button>
+      	<button class="btn btn-info btn-large bus-stops" data-purpose="bus-stops">
+          <img src="img/bus-stop-white.png">
+          <br/>Bus stops
+        </button>
+      </div>
+    </div>
+    <div id="scoresheet">Hello!!!</div>
+    <div id="sidebar">
+      <h2>Let's save some pets! Awesome!</h2>
+      <p>All your friends are having a pet party on the Fourth of July! You are opening an animal shelter to make sure all 100 of your friends have a pet by that time. You have one month to open your animal shelter in the best location for your friends to get to you and get excited about having new pets.</p>
+      <p>Because of what's around them, the place you pick is important. If you put your animal shelter closer to parks, bus stops, pet stores, vets offices, or areas with lots of people, your pets will be adopted faster! To look at where each of these things are, click the buttons on the bottom of the screen. Hurry though -- you only have a month!</p>
+      <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Welcome to the Pet Project!</h4>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-tabs" id="aboutTabs">
+              <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the project</a></li>
+              <li><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact us</a></li>
+              <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i>&nbsp;Metadata <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#boroughs-tab" data-toggle="tab">Boroughs</a></li>
+                  <li><a href="#subway-lines-tab" data-toggle="tab">Subway Lines</a></li>
+                  <li><a href="#theaters-tab" data-toggle="tab">Theaters</a></li>
+                  <li><a href="#museums-tab" data-toggle="tab">Museums</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="tab-content" id="aboutTabsContent" style="padding-top: 10px;">
+              <div class="tab-pane fade active in" id="about">
+                <p>A simple, responsive template for building web mapping applications with <a href="http://getbootstrap.com/">Bootstrap 3</a>, <a href="http://leafletjs.com/" target="_blank">Leaflet</a>, and <a href="http://twitter.github.io/typeahead.js/" target="_blank">typeahead.js</a>. Open source, MIT licensed, and available on <a href="https://github.com/bmcbride/bootleaf" target="_blank">GitHub</a>.</p>
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Attribution</div>
+                  <ul class="list-group">
+                    <li class="list-group-item">Paw Print designed by Laurène Smith from the Noun Project</li>
+                  </ul>
+                </div>
+              </div>
+              <div id="disclaimer" class="tab-pane fade text-danger">
+                <p>The data provided on this site is for informational and planning purposes only.</p>
+                <p>Absolutely no accuracy or completeness guarantee is implied or intended. All information on this map is subject to such variations and corrections as might result from a complete title search and/or accurate field survey.</p>
+              </div>
+              <div class="tab-pane fade" id="contact">
+                <form id="contact-form">
+                  <div class="well well-sm">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="first-name">First Name:</label>
+                          <input type="text" class="form-control" id="first-name">
+                        </div>
+                        <div class="form-group">
+                          <label for="last-name">Last Name:</label>
+                          <input type="text" class="form-control" id="last-email">
+                        </div>
+                        <div class="form-group">
+                          <label for="email">Email:</label>
+                          <input type="text" class="form-control" id="email">
+                        </div>
+                      </div>
+                      <div class="col-md-8">
+                        <label for="message">Message:</label>
+                        <textarea class="form-control" rows="8" id="message"></textarea>
+                      </div>
+                      <div class="col-md-12">
+                        <p>
+                          <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Submit</button>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="boroughs-tab">
+                <p>Borough data courtesy of <a href="http://www.nyc.gov/html/dcp/html/bytes/meta_dis_nyboroughwi.shtml" target="_blank">New York City Department of City Planning</a></p>
+              </div>
+              <div class="tab-pane fade" id="subway-lines-tab">
+                <p><a href="http://spatialityblog.com/2010/07/08/mta-gis-data-update/#datalinks" target="_blank">MTA Subway data</a> courtesy of the <a href="http://www.urbanresearch.org/about/cur-components/cuny-mapping-service" target="_blank">CUNY Mapping Service at the Center for Urban Research</a></p>
+              </div>
+              <div class="tab-pane fade" id="theaters-tab">
+                <p>Theater data courtesy of <a href="https://data.cityofnewyork.us/Recreation/Theaters/kdu2-865w" target="_blank">NYC Department of Information & Telecommunications (DoITT)</a></p>
+              </div>
+              <div class="tab-pane fade" id="museums-tab">
+                <p>Museum data courtesy of <a href="https://data.cityofnewyork.us/Recreation/Museums-and-Galleries/sat5-adpb" target="_blank">NYC Department of Information & Telecommunications (DoITT)</a></p>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Map Legend</h4>
+          </div>
+          <div class="modal-body">
+            <p>Map Legend goes here...</p>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Login</h4>
+          </div>
+          <div class="modal-body">
+            <form id="contact-form">
+              <fieldset>
+                <div class="form-group">
+                  <label for="name">Username:</label>
+                  <input type="text" class="form-control" id="username">
+                </div>
+                <div class="form-group">
+                  <label for="email">Password:</label>
+                  <input type="password" class="form-control" id="password">
+                </div>
+              </fieldset>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Login</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title text-primary" id="feature-title"></h4>
+          </div>
+          <div class="modal-body" id="feature-info"></div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script type="text/template" id="clock-template">
+      <%= [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ][date.getMonth()] %> <%= date.getDate() %>
+    </script>
+
+    <script type="text/template" id="score-template">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        You have saved <%= total %> pets! <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#">From population: <%= population %></a></li>
+        <li><a href="#">From parks: <%= park %></li>
+        <li><a href="#">From vets: <%= vet %></a></li>
+        <li><a href="#">From pet stores: <%= pet_store %></a></li>
+        <li><a href="#">From bus stops: <%= bus_stop %></a></li>
+      </ul>
+    </script>
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.js"></script>
+    <script src="vendor/leaflet-draw/leaflet.draw.js"></script>
+    <script src="vendor/leaflet-sidebar/L.Control.Sidebar.js"></script>
+    <script src="data/pdx-pop-tracts.js"></script>
+    <script src="data/petstores.js"></script>
+    <script src="data/transitStops.js"></script>
+    <script src="data/parks.js"></script>
+    <script src="data/vets.js"></script>
+    <script src="js/vendor/_underscore.js"></script>
+    <script src="js/vendor/backbone.js"></script>
+    <script src="js/app/petproject.js"></script>
+    <script src="js/app/models/_feature.js"></script>
+    <script src="js/app/models/population_feature.js"></script>
+    <script src="js/app/models/distant_feature.js"></script>
+    <script src="js/app/collections/_scorable.js"></script>
+    <script src="js/app/collections/population_scorable.js"></script>
+    <script src="js/app/collections/distance_scorable.js"></script>
+    <script src="js/app/views/score.js"></script>
+    <script src="js/app/views/clock.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
